@@ -1,0 +1,812 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Siemens Supplier Registration",
+        "formDescription": "Siemens Supplier Registration",
+        "formFields": {
+          "values": [
+            { "fieldLabel": "Company Name" },
+            { "fieldLabel": "Contact Email" },
+            { "fieldLabel": "Contact Phone" },
+            {
+              "fieldLabel": "Category",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  { "option": "Electronics" },
+                  { "option": "Mechanical" },
+                  { "option": "Services" },
+                  { "option": "Raw Materials" }
+                ]
+              }
+            },
+            { "fieldLabel": "Tax ID / GST Number" }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [-32, 96],
+      "id": "0f59997d-4a16-42cf-b272-d6eb2f9edf78",
+      "name": "Gate1 - Registration Form",
+      "webhookId": "e8ed9b5a-3b26-452d-b622-e7e7ee2ce503"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
+          "conditions": [
+            {
+              "id": "644cdb0a-e110-4f4a-86cb-e928f0971055",
+              "leftValue": "={{ $json.row_number }}",
+              "rightValue": "",
+              "operator": { "type": "number", "operation": "exists", "singleValue": true }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [640, 96],
+      "id": "06d74a1b-102c-4fcd-9b9f-6d858af0cf0c",
+      "name": "Gate1 - Is Duplicate"
+    },
+    {
+      "parameters": {
+        "content": "## GATE 1 — IDENTIFY\nSupplier fills the registration form. We check the Registry sheet for a matching Tax ID before letting a new supplier in — duplicates get turned away immediately instead of piling up downstream.",
+        "height": 272,
+        "width": 960,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [-16, -16],
+      "typeVersion": 1,
+      "id": "8890bfff-c855-4abf-93fb-12ab3e7f5ea8",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": { "__rl": true, "value": "1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc", "mode": "list", "cachedResultName": "Supplier_Onboarding_Master", "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc/edit?usp=drivesdk" },
+        "sheetName": { "__rl": true, "value": "gid=0", "mode": "list", "cachedResultName": "Registry", "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc/edit#gid=0" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "companyName": "={{ $('Gate1 - Registration Form').item.json['Company Name'] }}",
+            "contactEmail": "={{ $('Gate1 - Registration Form').item.json['Contact Email'] }}",
+            "contactPhone": "={{ $('Gate1 - Registration Form').item.json['Contact Phone'] }}",
+            "category": "={{ $('Gate1 - Registration Form').item.json.Category }}",
+            "taxId": "={{ $('Gate1 - Registration Form').item.json['Tax ID / GST Number'] }}",
+            "supplierId": "={{ $('Gate1 - Generate Supplier ID').item.json.supplierId }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            { "id": "supplierId", "displayName": "supplierId", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "companyName", "displayName": "companyName", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "contactEmail", "displayName": "contactEmail", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "contactPhone", "displayName": "contactPhone", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "category", "displayName": "category", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "taxId", "displayName": "taxId", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "registeredAt", "displayName": "registeredAt", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "status", "displayName": "status", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [864, 192],
+      "id": "c75d0e0a-2f6b-4ca5-97a9-980c1e02726a",
+      "name": "Gate2 - Save To Registry",
+      "credentials": { "googleSheetsOAuth2Api": { "id": "UKjtwOTuVLpvgxyS", "name": "Google Sheets account" } }
+    },
+    {
+      "parameters": {
+        "content": "## GATE 2 — REGISTER\nNew supplier gets saved to the Registry sheet with a fresh Supplier ID, then emailed a link to the document upload form (Gate 3).",
+        "width": 576,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [736, 192],
+      "typeVersion": 1,
+      "id": "6c8c8a8a-8262-4491-a742-1b468494dea4",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "return {\n  json: {\n    ...$json,\n    supplierId: 'SUP-' + Date.now(),\n    registeredAt: new Date().toISOString()\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [192, 96],
+      "id": "9c7b5185-3697-447f-8316-fe944db04880",
+      "name": "Gate1 - Generate Supplier ID"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Gate1 - Generate Supplier ID').item.json[\"Contact Email\"] }}",
+        "subject": "Registration received — next step: upload your documents",
+        "emailType": "text",
+        "message": "=Thanks for registering (ID: {{ $('Gate1 - Generate Supplier ID').item.json.supplierId }}). We'll email you the document upload link shortly.\n\nhttps://n8n.workdayzgroup.com/form-test/203f0727-14ab-4227-ba97-6839ba8bfddc",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [1088, 192],
+      "id": "e3f8f059-0d6b-46db-b118-0f4f451c1c0d",
+      "name": "Gate2 - Email Registration Confirmation",
+      "webhookId": "21b69cb7-5878-49bb-a567-75c4dbd4ac4c",
+      "credentials": { "gmailOAuth2": { "id": "tmFxRMMY6seh2wJN", "name": "Gmail account 2" } }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Gate1 - Generate Supplier ID').item.json[\"Contact Email\"] }}",
+        "subject": "You're already registered with Siemens",
+        "emailType": "text",
+        "message": "Hi, our records show your company is already registered. Please reach out to procurement if you need your current status.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [864, 0],
+      "id": "13db9de9-3960-4984-8877-956d7536bfee",
+      "name": "Gate1 - Email Already Registered",
+      "webhookId": "e05ffd92-70fb-49be-9901-2fe98e67d97c",
+      "credentials": { "gmailOAuth2": { "id": "tmFxRMMY6seh2wJN", "name": "Gmail account 2" } }
+    },
+    {
+      "parameters": {
+        "documentId": { "__rl": true, "value": "1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc", "mode": "list", "cachedResultName": "Supplier_Onboarding_Master", "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc/edit?usp=drivesdk" },
+        "sheetName": { "__rl": true, "value": "gid=0", "mode": "list", "cachedResultName": "Registry", "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc/edit#gid=0" },
+        "filtersUI": { "values": [ { "lookupColumn": "taxId", "lookupValue": "={{ $json[\"Tax ID / GST Number\"] }}" } ] },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [416, 96],
+      "id": "e026be4a-d9e2-4672-8405-fa6efa93640d",
+      "name": "Gate1 - Check Duplicate Registration",
+      "alwaysOutputData": true,
+      "credentials": { "googleSheetsOAuth2Api": { "id": "UKjtwOTuVLpvgxyS", "name": "Google Sheets account" } }
+    },
+    {
+      "parameters": {
+        "formTitle": "Siemens Supplier — Document Upload",
+        "formDescription": "Siemens Supplier — Document Upload",
+        "formFields": {
+          "values": [
+            { "fieldLabel": "Supplier ID" },
+            {
+              "fieldLabel": "Document Type",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  { "option": "Insurance Certificate" },
+                  { "option": "Trade License" },
+                  { "option": "Tax Compliance Certificate" },
+                  { "option": "ISO Certification" }
+                ]
+              }
+            },
+            { "fieldLabel": "Upload Document", "fieldType": "file", "acceptFileTypes": "pdf" },
+            { "fieldLabel": "Email" }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [-32, 528],
+      "id": "ac85d854-6706-4e8b-95ae-30ff23670fab",
+      "name": "Gate3 - Document Upload Form",
+      "webhookId": "203f0727-14ab-4227-ba97-6839ba8bfddc"
+    },
+    {
+      "parameters": { "operation": "pdf", "binaryPropertyName": "Upload_Document", "options": {} },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [192, 528],
+      "id": "f1f0c62e-271b-4285-8ed8-c87bbb7c7ae2",
+      "name": "Gate3 - Extract PDF Text"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are a compliance document classifier for Siemens supplier onboarding. Given raw extracted text from a supplier document (insurance certificate, trade license, tax compliance certificate, ISO certification), identify: documentType, supplierName if mentioned, expiryDate in YYYY-MM-DD format if present (else null), confidence (high/medium/low). If unreadable or not a compliance document, set documentType to \"unrecognized\". Respond only in the given JSON schema."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [416, 528],
+      "id": "433809e9-03ff-4601-9ddf-16b5314c0017",
+      "name": "Gate3 - Classify Document AI"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{ \"supplierName\": \"ABC Suppliers Pvt Ltd\", \"documentType\": \"Insurance Certificate\", \"expiryDate\": \"2026-11-15\", \"confidence\": \"high\" }"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [560, 752],
+      "id": "6b7ea848-0d0e-47d9-8641-c1f4fe324335",
+      "name": "Gate3 - AI Output Parser",
+      "alwaysOutputData": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const output = $json.output || $json;\nconst documentType = output.documentType || 'unrecognized';\nconst expiryDateStr = output.expiryDate || null;\nconst supplierId = $('Gate3 - Document Upload Form').item.json['Supplier ID'];\n\nlet status, daysUntilExpiry = null;\nif (!expiryDateStr || documentType === 'unrecognized') {\n  status = 'expired_or_missing';\n} else {\n  const days = Math.floor((new Date(expiryDateStr) - new Date()) / 86400000);\n  daysUntilExpiry = days;\n  status = days < 0 ? 'expired_or_missing' : days <= 30 ? 'expiring_soon' : 'valid';\n}\n\nreturn { json: { supplierId, documentType, expiryDate: expiryDateStr, daysUntilExpiry, status } };"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [768, 528],
+      "id": "552313a0-ec2e-4fe5-8284-a67432de030c",
+      "name": "Gate3 - Compute Compliance Status"
+    },
+    {
+      "parameters": { "model": "nvidia/nemotron-3-ultra-550b-a55b:free", "options": {} },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [432, 752],
+      "id": "e820b8fa-a078-437a-93de-0bfcca2aa1cd",
+      "name": "Gate3 - AI Model",
+      "credentials": { "openRouterApi": { "id": "OofxDKYkAGISVakq", "name": "OpenRouter account 2" } }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": { "__rl": true, "value": "1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc", "mode": "list", "cachedResultName": "Supplier_Onboarding_Master", "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc/edit?usp=drivesdk" },
+        "sheetName": { "__rl": true, "value": 1205573981, "mode": "list", "cachedResultName": "documents", "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc/edit#gid=1205573981" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "supplierId": "={{ $json.supplierId }}",
+            "documentType": "={{ $json.documentType }}",
+            "expiryDate": "={{ $json.expiryDate }}",
+            "status": "={{ $json.status }}",
+            "reviewedAt": "={{ $now.toISO() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            { "id": "supplierId", "displayName": "supplierId", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "documentType", "displayName": "documentType", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "expiryDate", "displayName": "expiryDate", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "status", "displayName": "status", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "reviewedAt", "displayName": "reviewedAt", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [992, 528],
+      "id": "4792cb87-d010-43b3-b689-a3c8f27c244f",
+      "name": "Gate3 - Save To Documents Sheet",
+      "credentials": { "googleSheetsOAuth2Api": { "id": "UKjtwOTuVLpvgxyS", "name": "Google Sheets account" } }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
+                "conditions": [ { "leftValue": "={{ $json.status }}", "rightValue": "expired_or_missing", "operator": { "type": "string", "operation": "equals" }, "id": "1fd710bd-60a5-46d0-9d0f-59cf30599488" } ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
+                "conditions": [ { "id": "d9277ddb-ecae-44e3-91c2-dcfa5b6d3618", "leftValue": "={{ $json.status }}", "rightValue": "expiring_soon", "operator": { "type": "string", "operation": "equals", "name": "filter.operator.equals" } } ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
+                "conditions": [ { "id": "946514c3-e13b-4d9a-97cc-1c292f894e96", "leftValue": "={{ $json.status }}", "rightValue": "valid", "operator": { "type": "string", "operation": "equals", "name": "filter.operator.equals" } } ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [1216, 512],
+      "id": "5c1c3fe8-5dcf-4217-b369-2baaeeb5e666",
+      "name": "Gate3 - Route By Document Status"
+    },
+    {
+      "parameters": {
+        "sendTo": "mokssh.jaiin2028@mastersunion.org",
+        "subject": "=Non-compliant supplier document: {{ $json.supplierId }}",
+        "emailType": "text",
+        "message": "=Document type \"{{ $json.documentType }}\" from supplier {{ $json.supplierId }} is either expired or unreadable. Please follow up.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [1648, 432],
+      "id": "ec683cec-e32e-428d-912f-439681d4f988",
+      "name": "Gate3 - Email Escalate Procurement",
+      "webhookId": "1bd31012-d30b-461f-b2f8-cb6e81f7f976",
+      "credentials": { "gmailOAuth2": { "id": "tmFxRMMY6seh2wJN", "name": "Gmail account 2" } }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Gate3 - Document Upload Form').item.json.Email }}",
+        "subject": "=Reminder: your {{ $json.documentType }} is expiring soon",
+        "emailType": "text",
+        "message": "=Your document expires on {{ $json.expiryDate }} ({{ $('Gate3 - Compute Compliance Status').item.json.daysUntilExpiry }} days left). Please upload a renewed copy soon.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [1712, 560],
+      "id": "88849357-0536-4910-a457-5390bc81ce25",
+      "name": "Gate3 - Email Remind Supplier",
+      "webhookId": "1bd31012-d30b-461f-b2f8-cb6e81f7f976",
+      "credentials": { "gmailOAuth2": { "id": "tmFxRMMY6seh2wJN", "name": "Gmail account 2" } }
+    },
+    {
+      "parameters": {
+        "content": "## GATE 3 — DOCUMENTS\nSupplier returns and uploads a PDF (insurance, trade license, tax cert, ISO cert). AI reads it, extracts doc type + expiry date, and we compute status: valid / expiring_soon / expired_or_missing. Logged to the Documents sheet, then routed to the right email — procurement gets escalated on bad docs, supplier gets reminded on soon-to-expire ones, and only a valid document continues on to Gate 4.",
+        "height": 432,
+        "width": 1924,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [-128, 400],
+      "typeVersion": 1,
+      "id": "ba02a697-4caa-46d5-afe2-68b9b3a1a4f6",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const registry = $json; // from Gate4 - Lookup Registry Data\nconst docStatus = $('Gate3 - Compute Compliance Status').item.json.status;\n\nlet score = 0;\nconst flags = [];\n\nif (docStatus !== 'valid') { score += 30; flags.push('document_issue'); }\nif (!/^[A-Z0-9]{10,15}$/i.test(registry.taxId || '')) { score += 25; flags.push('invalid_tax_id_format'); }\nif (['Raw Materials', 'Chemicals'].includes(registry.category)) { score += 15; flags.push('high_risk_category'); }\nscore += 20; flags.push('new_supplier_no_history');\n\nconst riskLevel = score >= 61 ? 'High' : score >= 31 ? 'Medium' : 'Low';\n\nreturn {\n  json: {\n    supplierId: registry.supplierId,\n    companyName: registry.companyName,\n    riskScore: score,\n    riskLevel,\n    flags: flags.join(', ')\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1696, 992],
+      "id": "84f8a667-47d2-413f-983f-a0e4bc6da107",
+      "name": "Gate4 - Calculate Risk Score"
+    },
+    {
+      "parameters": {
+        "documentId": { "__rl": true, "value": "1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc", "mode": "list", "cachedResultName": "Supplier_Onboarding_Master", "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc/edit?usp=drivesdk" },
+        "sheetName": { "__rl": true, "value": "gid=0", "mode": "list", "cachedResultName": "Registry", "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc/edit#gid=0" },
+        "filtersUI": { "values": [ { "lookupColumn": "supplierId", "lookupValue": "={{ $json.supplierId }}" } ] },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [1488, 992],
+      "id": "404d5e55-b2fc-4881-8f40-7acffe27b876",
+      "name": "Gate4 - Lookup Registry Data",
+      "credentials": { "googleSheetsOAuth2Api": { "id": "UKjtwOTuVLpvgxyS", "name": "Google Sheets account" } }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": { "__rl": true, "value": "1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc", "mode": "list", "cachedResultName": "Supplier_Onboarding_Master", "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc/edit?usp=drivesdk" },
+        "sheetName": { "__rl": true, "value": 1277344179, "mode": "list", "cachedResultName": "Risk", "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc/edit#gid=1277344179" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "supplierId": "={{ $json.supplierId }}",
+            "riskScore": "={{ $json.riskScore }}",
+            "riskLevel": "={{ $json.riskLevel }}",
+            "flags": "={{ $json.flags }}",
+            "checkedAt": "={{ $now.toISO() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            { "id": "supplierId", "displayName": "supplierId", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "riskScore", "displayName": "riskScore", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "riskLevel", "displayName": "riskLevel", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "flags", "displayName": "flags", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "checkedAt", "displayName": "checkedAt", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [1904, 992],
+      "id": "f9e5ef60-1f3b-49ec-8a1f-6ffac1bcbc59",
+      "name": "Gate4 - Save To Risk Sheet",
+      "credentials": { "googleSheetsOAuth2Api": { "id": "UKjtwOTuVLpvgxyS", "name": "Google Sheets account" } }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
+          "conditions": [ { "id": "bfd1dda3-4103-42a0-be4d-b5192278fe7d", "leftValue": "={{ $json.riskLevel }}", "rightValue": "High", "operator": { "type": "string", "operation": "equals", "name": "filter.operator.equals" } } ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [2048, 992],
+      "id": "e60a03b5-dd99-4319-9978-92cb4dfa9464",
+      "name": "Gate4 - Is High Risk"
+    },
+    {
+      "parameters": {
+        "content": "## GATE 4 — RISK\nLooks up the supplier's Registry data and scores risk using free/self-declared signals: document issues, malformed Tax ID, high-risk category (Raw Materials/Chemicals), plus a default new-supplier flag. Score ≥61 = High → escalates to compliance and stops here. Medium/Low → continues automatically to Gate 5.",
+        "height": 256,
+        "width": 1424,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [1216, 912],
+      "typeVersion": 1,
+      "id": "c532b905-d52c-4dfb-a89a-2490656eb75a",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "sendTo": "=mokssh.jaiin2028@mastersunion.org",
+        "subject": "=High-risk supplier flagged: {{ $json.supplierId }}",
+        "emailType": "text",
+        "message": "={{ $json.companyName }} scored {{ $json.riskScore }} (High risk). Flags: {{ $json.flags }}. Please review manually.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [2288, 912],
+      "id": "d1b060ae-c251-4c2f-abf3-0859ca5640d3",
+      "name": "Gate4 - Email Escalate Compliance",
+      "webhookId": "1bd31012-d30b-461f-b2f8-cb6e81f7f976",
+      "credentials": { "gmailOAuth2": { "id": "tmFxRMMY6seh2wJN", "name": "Gmail account 2" } }
+    },
+    {
+      "parameters": {
+        "jsCode": "const category = $('Gate4 - Lookup Registry Data').item.json.category;\nconst companyName = $('Gate4 - Lookup Registry Data').item.json.companyName;\nconst supplierId = $json.supplierId;\n\nconst vendorCode = 'V-' + (category || 'GEN').substring(0, 3).toUpperCase() + '-' + supplierId.slice(-5);\n\nreturn {\n  json: {\n    ...$json,\n    companyName,\n    category,\n    vendorCode\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2336, 1232],
+      "id": "49d064d7-4bd2-48c3-b769-b77b5da2bb30",
+      "name": "Gate5 - Generate Vendor Code"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": { "__rl": true, "value": "1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc", "mode": "list", "cachedResultName": "Supplier_Onboarding_Master", "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc/edit?usp=drivesdk" },
+        "sheetName": { "__rl": true, "value": 975358088, "mode": "list", "cachedResultName": "sap_staging", "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc/edit#gid=975358088" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "supplierId": "={{ $json.supplierId }}",
+            "riskLevel": "={{ $json.riskLevel }}",
+            "companyName": "={{ $json.companyName }}",
+            "category": "={{ $json.category }}",
+            "vendorCode": "={{ $json.vendorCode }}",
+            "sapEntryStatus": "Staged",
+            "enteredAt": "={{ $now.toISO() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            { "id": "supplierId", "displayName": "supplierId", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "companyName", "displayName": "companyName", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "category", "displayName": "category", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "riskLevel", "displayName": "riskLevel", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "vendorCode", "displayName": "vendorCode", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "sapEntryStatus", "displayName": "sapEntryStatus", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "enteredAt", "displayName": "enteredAt", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [2544, 1232],
+      "id": "4cc555ae-d042-4622-b868-a8b5adf74457",
+      "name": "Gate5 - Save To SAP Staging",
+      "credentials": { "googleSheetsOAuth2Api": { "id": "UKjtwOTuVLpvgxyS", "name": "Google Sheets account" } }
+    },
+    {
+      "parameters": {
+        "content": "## GATE 5 — SAP (Google Sheets stand-in)\nGenerates a vendor code and stages the supplier record in the SAP_Staging tab. This is a free replacement for a real SAP connection — swap this Sheets node for an SAP RFC/API call later and nothing else in the workflow changes.",
+        "height": 272,
+        "width": 688,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [2112, 1232],
+      "typeVersion": 1,
+      "id": "15d47781-22bd-4582-8d31-1727632e3ba1",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const docStatus = $('Gate3 - Compute Compliance Status').item.json.status;\nconst riskLevel = $json.riskLevel;\nconst qualified = docStatus === 'valid' && riskLevel !== 'High';\n\nreturn {\n  json: {\n    ...$json,\n    docStatus,\n    qualified,\n    qualificationNotes: qualified ? 'Meets all criteria' : 'Fails document or risk criteria'\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2736, 1616],
+      "id": "73acb482-8858-4227-947e-c8f349f6509c",
+      "name": "Gate6 - Qualification Check"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "=mokssh.jaiin2028@mastersunion.org",
+        "subject": "=Qualification decision needed: {{ $json.supplierId }}",
+        "message": "=Supplier: {{ $json.companyName }} | Vendor Code: {{ $json.vendorCode }} | Doc status: {{ $json.docStatus }} | Risk: {{ $json.riskLevel }} | Recommendation: {{ $json.qualificationNotes }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [2944, 1616],
+      "id": "4e467638-92e8-4bcd-88b0-a4a1eb5e3dd4",
+      "name": "Gate6 - Send Approval Request",
+      "webhookId": "5edeaabb-2965-4472-97c8-4e8c4c5decda",
+      "credentials": { "gmailOAuth2": { "id": "tmFxRMMY6seh2wJN", "name": "Gmail account 2" } }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": { "__rl": true, "value": "1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc", "mode": "list", "cachedResultName": "Supplier_Onboarding_Master", "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc/edit?usp=drivesdk" },
+        "sheetName": { "__rl": true, "value": 1696969760, "mode": "list", "cachedResultName": "Qualification", "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc/edit#gid=1696969760" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "supplierId": "={{ $('Gate6 - Qualification Check').item.json.supplierId }}",
+            "qualified": "={{ $('Gate6 - Qualification Check').item.json.qualified }}",
+            "qualificationNotes": "={{ $('Gate6 - Qualification Check').item.json.qualificationNotes }}",
+            "decidedAt": "={{ $now.toISO() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            { "id": "supplierId", "displayName": "supplierId", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "qualified", "displayName": "qualified", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "qualificationNotes", "displayName": "qualificationNotes", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "decidedAt", "displayName": "decidedAt", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [3136, 1632],
+      "id": "1a1d9ae4-6b8b-4c07-a3ff-8afc1f0451a7",
+      "name": "Gate6 - Save To Qualification Sheet",
+      "credentials": { "googleSheetsOAuth2Api": { "id": "UKjtwOTuVLpvgxyS", "name": "Google Sheets account" } }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose", "version": 3 },
+          "conditions": [ { "id": "5ed8aa8b-d058-46e8-998b-d9fd781c64ae", "leftValue": "={{ $('Gate6 - Send Approval Request').item.json.data.approved }}", "rightValue": "true", "operator": { "type": "string", "operation": "equals", "name": "filter.operator.equals" } } ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [3344, 1632],
+      "id": "d0cd05c6-4e73-451a-97d3-8da0c61a3d30",
+      "name": "Gate6 - Is Approved"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Gate4 - Lookup Registry Data').item.json.contactEmail }}",
+        "subject": "Onboarding on hold",
+        "emailType": "text",
+        "message": "Hi, your onboarding is on hold pending further review. Our procurement team will reach out.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [3632, 1680],
+      "id": "d755c172-0d0e-48df-bb7d-6d742837c9a6",
+      "name": "Gate6 - Email Supplier On Hold",
+      "webhookId": "27979286-6856-41fb-a4e9-32196e40348b",
+      "credentials": { "gmailOAuth2": { "id": "tmFxRMMY6seh2wJN", "name": "Gmail account 2" } }
+    },
+    {
+      "parameters": {
+        "content": "## GATE 6 — QUALIFY\nChecks valid docs + non-High risk = qualified. Sends procurement an Approve/Reject email (Send and Wait — the one human checkpoint in the whole flow) and logs the decision. Rejected suppliers get an on-hold email here and stop; approved ones continue to Gate 7.",
+        "height": 384,
+        "width": 1520,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [2448, 1552],
+      "typeVersion": 1,
+      "id": "48ddbf9e-2f2f-4bc2-908b-5b2dab66bba1",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": { "__rl": true, "value": "1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc", "mode": "list", "cachedResultName": "Supplier_Onboarding_Master", "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc/edit?usp=drivesdk" },
+        "sheetName": { "__rl": true, "value": "gid=0", "mode": "list", "cachedResultName": "Registry", "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc/edit#gid=0" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "supplierId": "={{ $('Gate6 - Qualification Check').item.json.supplierId }}",
+            "status": "active"
+          },
+          "matchingColumns": ["supplierId"],
+          "schema": [
+            { "id": "supplierId", "displayName": "supplierId", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true, "removed": false },
+            { "id": "companyName", "displayName": "companyName", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true, "removed": true },
+            { "id": "contactEmail", "displayName": "contactEmail", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true, "removed": true },
+            { "id": "contactPhone", "displayName": "contactPhone", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true, "removed": true },
+            { "id": "category", "displayName": "category", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true, "removed": true },
+            { "id": "taxId", "displayName": "taxId", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true, "removed": true },
+            { "id": "registeredAt", "displayName": "registeredAt", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true, "removed": true },
+            { "id": "status", "displayName": "status", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [3584, 1264],
+      "id": "54e216fd-7165-437a-9adf-cd2aa5ae8f1c",
+      "name": "Gate7 - Update Registry Status Active",
+      "credentials": { "googleSheetsOAuth2Api": { "id": "UKjtwOTuVLpvgxyS", "name": "Google Sheets account" } }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": { "__rl": true, "value": "1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc", "mode": "list", "cachedResultName": "Supplier_Onboarding_Master", "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc/edit?usp=drivesdk" },
+        "sheetName": { "__rl": true, "value": 1407020982, "mode": "list", "cachedResultName": "Activated", "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bP3rVspnbbr6IY2_CXATl8ery0X1q79hV0Brbb2sCcc/edit#gid=1407020982" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "supplierId": "={{ $('Gate6 - Qualification Check').item.json.supplierId }}",
+            "companyName": "={{ $('Gate6 - Qualification Check').item.json.companyName }}",
+            "activatedAt": "={{ $now.toISO() }}",
+            "activatedBy": "mokssh.jaiin2028@mastersunion.org"
+          },
+          "matchingColumns": [],
+          "schema": [
+            { "id": "supplierId", "displayName": "supplierId", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "companyName", "displayName": "companyName", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "activatedAt", "displayName": "activatedAt", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "activatedBy", "displayName": "activatedBy", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [3776, 1264],
+      "id": "edfd5049-d997-4f4a-bc93-122a368663ad",
+      "name": "Gate7 - Save To Activated Sheet",
+      "credentials": { "googleSheetsOAuth2Api": { "id": "UKjtwOTuVLpvgxyS", "name": "Google Sheets account" } }
+    },
+    {
+      "parameters": {
+        "sendTo": "mokshjain.life@gmail.com",
+        "subject": "=New active supplier: {{ $('Gate6 - Qualification Check').item.json.companyName }}",
+        "emailType": "text",
+        "message": "=Vendor code {{ $('Gate6 - Qualification Check').item.json.vendorCode }} is now active and ready for PO.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [4192, 1264],
+      "id": "3e533027-bb50-4ce2-aa51-453a78262bbc",
+      "name": "Gate7 - Email Notify Purchasing",
+      "webhookId": "561f7feb-6319-4de1-a7c1-7d1a566c21af",
+      "credentials": { "gmailOAuth2": { "id": "tmFxRMMY6seh2wJN", "name": "Gmail account 2" } }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Gate4 - Lookup Registry Data').item.json.contactEmail }}",
+        "subject": "You're now an approved Siemens supplier",
+        "emailType": "text",
+        "message": "=Congratulations! You're now active with vendor code {{ $('Gate6 - Qualification Check').item.json.vendorCode }}.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [3984, 1264],
+      "id": "976feb39-c0de-4943-a037-502bdb2a4fbf",
+      "name": "Gate7 - Email Welcome Supplier",
+      "webhookId": "ca01bef3-a525-467c-8e51-92de637891f6",
+      "credentials": { "gmailOAuth2": { "id": "tmFxRMMY6seh2wJN", "name": "Gmail account 2" } }
+    },
+    {
+      "parameters": {
+        "content": "## GATE 7 — ACTIVATE\nFlips the approved supplier's Registry status to Active, logs them to the Activated sheet, and fires two final emails — a welcome message to the supplier with their vendor code, and a heads-up to purchasing that they're ready for a PO.",
+        "height": 320,
+        "width": 1024,
+        "color": 1
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [3344, 1136],
+      "typeVersion": 1,
+      "id": "60d1feca-56a4-48fb-9b67-c2332becd77f",
+      "name": "Sticky Note6"
+    }
+  ],
+  "connections": {
+    "Gate1 - Registration Form": { "main": [ [ { "node": "Gate1 - Generate Supplier ID", "type": "main", "index": 0 } ] ] },
+    "Gate1 - Is Duplicate": { "main": [ [ { "node": "Gate1 - Email Already Registered", "type": "main", "index": 0 } ], [ { "node": "Gate2 - Save To Registry", "type": "main", "index": 0 } ] ] },
+    "Gate2 - Save To Registry": { "main": [ [ { "node": "Gate2 - Email Registration Confirmation", "type": "main", "index": 0 } ] ] },
+    "Gate1 - Generate Supplier ID": { "main": [ [ { "node": "Gate1 - Check Duplicate Registration", "type": "main", "index": 0 } ] ] },
+    "Gate1 - Check Duplicate Registration": { "main": [ [ { "node": "Gate1 - Is Duplicate", "type": "main", "index": 0 } ] ] },
+    "Gate3 - Document Upload Form": { "main": [ [ { "node": "Gate3 - Extract PDF Text", "type": "main", "index": 0 } ] ] },
+    "Gate3 - Extract PDF Text": { "main": [ [ { "node": "Gate3 - Classify Document AI", "type": "main", "index": 0 } ] ] },
+    "Gate3 - Classify Document AI": { "main": [ [ { "node": "Gate3 - Compute Compliance Status", "type": "main", "index": 0 } ] ] },
+    "Gate3 - AI Output Parser": { "ai_outputParser": [ [ { "node": "Gate3 - Classify Document AI", "type": "ai_outputParser", "index": 0 } ] ] },
+    "Gate3 - Compute Compliance Status": { "main": [ [ { "node": "Gate3 - Save To Documents Sheet", "type": "main", "index": 0 } ] ] },
+    "Gate3 - AI Model": { "ai_languageModel": [ [ { "node": "Gate3 - Classify Document AI", "type": "ai_languageModel", "index": 0 } ] ] },
+    "Gate3 - Save To Documents Sheet": { "main": [ [ { "node": "Gate3 - Route By Document Status", "type": "main", "index": 0 } ] ] },
+    "Gate3 - Route By Document Status": {
+      "main": [
+        [ { "node": "Gate3 - Email Escalate Procurement", "type": "main", "index": 0 } ],
+        [ { "node": "Gate3 - Email Remind Supplier", "type": "main", "index": 0 } ],
+        [ { "node": "Gate4 - Lookup Registry Data", "type": "main", "index": 0 } ]
+      ]
+    },
+    "Gate4 - Calculate Risk Score": { "main": [ [ { "node": "Gate4 - Save To Risk Sheet", "type": "main", "index": 0 } ] ] },
+    "Gate4 - Lookup Registry Data": { "main": [ [ { "node": "Gate4 - Calculate Risk Score", "type": "main", "index": 0 } ] ] },
+    "Gate4 - Save To Risk Sheet": { "main": [ [ { "node": "Gate4 - Is High Risk", "type": "main", "index": 0 } ] ] },
+    "Gate4 - Is High Risk": {
+      "main": [
+        [ { "node": "Gate4 - Email Escalate Compliance", "type": "main", "index": 0 } ],
+        [ { "node": "Gate5 - Generate Vendor Code", "type": "main", "index": 0 } ]
+      ]
+    },
+    "Gate5 - Generate Vendor Code": { "main": [ [ { "node": "Gate5 - Save To SAP Staging", "type": "main", "index": 0 } ] ] },
+    "Gate5 - Save To SAP Staging": { "main": [ [ { "node": "Gate6 - Qualification Check", "type": "main", "index": 0 } ] ] },
+    "Gate6 - Qualification Check": { "main": [ [ { "node": "Gate6 - Send Approval Request", "type": "main", "index": 0 } ] ] },
+    "Gate6 - Send Approval Request": { "main": [ [ { "node": "Gate6 - Save To Qualification Sheet", "type": "main", "index": 0 } ] ] },
+    "Gate6 - Save To Qualification Sheet": { "main": [ [ { "node": "Gate6 - Is Approved", "type": "main", "index": 0 } ] ] },
+    "Gate6 - Is Approved": {
+      "main": [
+        [ { "node": "Gate7 - Update Registry Status Active", "type": "main", "index": 0 } ],
+        [ { "node": "Gate6 - Email Supplier On Hold", "type": "main", "index": 0 } ]
+      ]
+    },
+    "Gate7 - Update Registry Status Active": { "main": [ [ { "node": "Gate7 - Save To Activated Sheet", "type": "main", "index": 0 } ] ] },
+    "Gate7 - Save To Activated Sheet": { "main": [ [ { "node": "Gate7 - Email Welcome Supplier", "type": "main", "index": 0 } ] ] },
+    "Gate7 - Email Welcome Supplier": { "main": [ [ { "node": "Gate7 - Email Notify Purchasing", "type": "main", "index": 0 } ] ] }
+  },
+  "pinData": {
+    "Gate3 - Classify Document AI": [
+      { "output": { "supplierName": "Apex Chemical Industries Pvt Ltd", "documentType": "tax_compliance_certificate", "expiryDate": "2027-06-04", "confidence": "high" } }
+    ]
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1fe3ad31fbb2a5d5577fe25e9b47c39cc2a50e184a3e32c298aefec77ff52014"
+  }
+}
