@@ -15,11 +15,9 @@ const Projects = () => {
       </h1>
 
       <p className='text-slate-500 mt-2 leading-relaxed'>
-        I've embarked on numerous projects throughout the years, but these are
-        the ones I hold closest to my heart. Many of them are open-source, so if
-        you come across something that piques your interest, feel free to
-        explore the codebase and contribute your ideas for further enhancements.
-        Your collaboration is highly valued!
+        A mix of shipped product work, research, and a couple of things I
+        built just because they were fun. Click through for the full
+        writeups, decks, or workflows behind each one.
       </p>
 
       <div className='flex flex-wrap my-20 gap-16'>
@@ -30,7 +28,7 @@ const Projects = () => {
               <div className='btn-front rounded-xl flex justify-center items-center'>
                 <img
                   src={project.iconUrl}
-                  alt='threads'
+                  alt={project.name}
                   className='w-1/2 h-1/2 object-contain'
                 />
               </div>
@@ -41,21 +39,47 @@ const Projects = () => {
                 {project.name}
               </h4>
               <p className='mt-2 text-slate-500'>{project.description}</p>
-              <div className='mt-5 flex items-center gap-2 font-poppins'>
-                <Link
-                  to={project.link}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className='font-semibold text-blue-600'
-                >
-                  Live Link
-                </Link>
-                <img
-                  src={arrow}
-                  alt='arrow'
-                  className='w-4 h-4 object-contain'
-                />
-              </div>
+
+              {project.audioUrl ? (
+                <audio controls className='mt-5 w-full'>
+                  <source src={project.audioUrl} type='audio/mpeg' />
+                  Your browser does not support the audio element.
+                </audio>
+              ) : (
+                <div className='mt-5 flex items-center gap-2 font-poppins'>
+                  <Link
+                    to={project.link}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='font-semibold text-blue-600'
+                  >
+                    Live Link
+                  </Link>
+                  <img
+                    src={arrow}
+                    alt='arrow'
+                    className='w-4 h-4 object-contain'
+                  />
+                </div>
+              )}
+
+              {project.secondaryLink && (
+                <div className='mt-2 flex items-center gap-2 font-poppins'>
+                  <Link
+                    to={project.secondaryLink}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='font-semibold text-blue-600'
+                  >
+                    {project.secondaryLabel || "Learn more"}
+                  </Link>
+                  <img
+                    src={arrow}
+                    alt='arrow'
+                    className='w-4 h-4 object-contain'
+                  />
+                </div>
+              )}
             </div>
           </div>
         ))}
