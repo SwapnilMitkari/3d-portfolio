@@ -11,7 +11,7 @@ const HomeInfo = ({ currentStage }) => {
         <span className='font-semibold mx-2 text-white'>{profile.name.split(" ")[0]}</span>
         👋
         <br />
-        {profile.role} 🇮🇳
+        {profile.role}
       </h1>
     );
 
