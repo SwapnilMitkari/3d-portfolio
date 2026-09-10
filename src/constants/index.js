@@ -93,8 +93,10 @@ export const projects = [
         theme: "btn-back-green",
         name: "Micro-Confidence",
         description:
-            "Full-stack wellness app (React, TypeScript, Supabase, n8n) delivering daily social-confidence micro-challenges with streaks, courage-score gamification, and 4 automated n8n workflows. Live, with a full PRD/BRD/FSD documentation suite.",
+            "Full-stack wellness app (React, TypeScript, Supabase, n8n) delivering daily social-confidence micro-challenges with streaks, courage-score gamification, and 4 automated n8n workflows. Live app, with a full PRD/BRD/FSD documentation suite.",
         link: "https://my-confidence-quest.lovable.app/",
+        secondaryLink: "/micro-confidence-docs.pdf",
+        secondaryLabel: "Read the docs",
     },
     {
         iconUrl: nodejs,
@@ -102,7 +104,7 @@ export const projects = [
         name: "Siemens Supplier Onboarding — n8n Automation",
         description:
             "Complete end-to-end n8n workflow automating a 7-gate supplier onboarding pipeline (Identify → Register → Documents → Risk → SAP → Qualify → Activate), including an AI document-classification agent and Google Sheets/Gmail integrations.",
-        link: "https://github.com/SwapnilMitkari",
+        link: "/supplier-onboarding-workflow.json",
     },
     {
         iconUrl: summiz,
@@ -110,7 +112,7 @@ export const projects = [
         name: "PoshanSetu",
         description:
             "F&B business model for school-age (5–12) child nutrition in tier-3/4 India — a fortified millet-and-dal mix sold to state governments as a screened-cohort supplement and to parents via retail. Full GTM, unit economics, and regulatory strategy.",
-        link: "#",
+        link: "/poshansetu-pitch.pptx",
     },
     {
         iconUrl: mongodb,
@@ -118,7 +120,7 @@ export const projects = [
         name: "Sector Map: Industrial Automation",
         description:
             "Research deck mapping the shift from hardware to AI-enabled software/services in industrial automation — market sizing, incumbents vs. AI-native challengers, policy drivers, and a Siemens supplier-onboarding case study.",
-        link: "#",
+        link: "/sector-map-industrial-automation.pdf",
     },
     {
         iconUrl: contact,
@@ -126,7 +128,7 @@ export const projects = [
         name: "The Nash Equilibrium Inside India's E20 Standoff",
         description:
             "Published research article using game theory to explain why India's E20 ethanol-blending policy persists despite backlash — co-authored analysis of the government, farmer, and owner payoff structure.",
-        link: "#",
+        link: "/e20-nash-equilibrium-article.pdf",
     },
     {
         iconUrl: soundon,
@@ -135,6 +137,7 @@ export const projects = [
         description:
             "An original Hinglish rap covering an entire GTM/marketing framework — Need/Want/Demand, STP, the 4 Ps, Porter's Five Forces, BCG and Ansoff matrices — written and produced as a study aid.",
         link: "#",
+        audioUrl: "/Seedhi_Si_Baat.mp3",
     },
     {
         iconUrl: redux,
@@ -142,7 +145,7 @@ export const projects = [
         name: "Edureka Growth Strategy — PM Case Study",
         description:
             "Diagnosed a stalled MRR despite rising leads by identifying a dropping lead-conversion rate, then designed a sustainable growth path (self-serve funnel, subscriptions, referrals) with vertical/lateral experiments to validate root cause.",
-        link: "#",
+        link: "/edureka-growth-strategy.pdf",
     },
     {
         iconUrl: typescript,
@@ -150,6 +153,6 @@ export const projects = [
         name: "Gmail Language Translation — PRD",
         description:
             "Full PRD for a native translation feature in Gmail targeting non-English-speaking users, with competitive analysis vs. Outlook, prioritized feature set (P0–P4), and mockups of the end-to-end translation workflow.",
-        link: "#",
+        link: "/gmail-translation-prd.pdf",
     },
 ];
