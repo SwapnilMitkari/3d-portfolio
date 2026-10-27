@@ -329,3 +329,12 @@ body {
   0%, 100% { transform: translate(0, 0) scale(1); }
   50% { transform: translate(14px, -18px) scale(1.12); }
 }
+
+/* Torn white sheet with red ruled lines (see StationeryBackdrop.jsx) */
+.paper-sheet {
+  background-color: #fff;
+  background-image: repeating-linear-gradient(to bottom, transparent 0 31px, #e85d5d 31px 32px);
+  background-position: 0 44px;
+  clip-path: polygon(3% 2%, 38% 0, 61% 4%, 97% 0, 100% 30%, 97% 62%, 100% 100%, 62% 96%, 34% 100%, 0 95%, 3% 66%, 0 34%);
+  opacity: 0.96;
+}

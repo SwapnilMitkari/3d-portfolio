@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { profile, stats } from "../data";
 import PaymentFlow from "./PaymentFlow";
+import StationeryBackdrop from "./StationeryBackdrop";
 
 const PHOTO = "/swapnil-web.jpg";
 
@@ -32,12 +33,8 @@ const Hero = () => {
         </dl>
       </div>
 
-      <div className="animate-fade-up relative mx-auto w-full max-w-sm p-6 [animation-delay:200ms]">
-        <div className="absolute inset-0 overflow-hidden rounded-[2rem]">
-          <div className="absolute inset-0 bg-gradient-to-br from-sky-200 via-pink/40 to-purple/60" />
-          <span className="hero-blob absolute -left-8 top-6 h-44 w-44 rounded-full bg-amber-200/80 blur-2xl" />
-          <span className="hero-blob absolute -right-6 bottom-4 h-52 w-52 rounded-full bg-cyan-300/70 blur-2xl [animation-delay:-3s]" />
-        </div>
+      <div className="animate-fade-up relative mx-auto w-full max-w-sm p-8 [animation-delay:200ms]">
+        <StationeryBackdrop />
 
         <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-2xl ring-4 ring-white/70">
           {photoMissing ? (
