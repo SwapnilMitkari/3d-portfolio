@@ -148,3 +148,89 @@ body {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(400%); }
 }
+
+/* Experiments phone screens (see src/components/ExperimentScene.jsx) */
+.phone {
+  @apply relative h-72 w-40 overflow-hidden rounded-[2.2rem] border-[7px] border-ink bg-white shadow-xl;
+}
+
+.exp-route-car {
+  animation: exp-route 4s ease-in-out infinite alternate;
+}
+
+.exp-route-fill {
+  width: 60%;
+  animation: exp-grow 4s ease-in-out infinite alternate;
+}
+
+.exp-speed {
+  animation: exp-speed 1.2s linear infinite;
+  animation-delay: calc(var(--i) * -0.2s);
+}
+
+.exp-drop-in {
+  animation: exp-drop 4s ease-in infinite;
+  animation-delay: calc(var(--i) * 0.7s);
+}
+
+.exp-star {
+  color: #e5e7eb;
+  animation: exp-star 4s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.3s);
+}
+
+.exp-float {
+  animation: exp-float 3.6s ease-out infinite;
+  animation-delay: calc(var(--i) * 1.2s);
+}
+
+.exp-shrink {
+  animation: exp-shrink 6s linear infinite;
+}
+
+.exp-pop {
+  animation: exp-pop 3s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.5s);
+}
+
+@keyframes exp-route {
+  from { left: 12%; }
+  to { left: 84%; }
+}
+
+@keyframes exp-grow {
+  from { width: 10%; }
+  to { width: 80%; }
+}
+
+@keyframes exp-speed {
+  from { transform: translateX(40%); }
+  to { transform: translateX(-40%); }
+}
+
+@keyframes exp-drop {
+  0% { transform: translateY(-40px); opacity: 0; }
+  20% { opacity: 1; }
+  50%, 100% { transform: translateY(70px); opacity: 0; }
+}
+
+@keyframes exp-star {
+  0%, 15% { color: #e5e7eb; }
+  35%, 100% { color: #f5b301; }
+}
+
+@keyframes exp-float {
+  0% { transform: translateY(12px); opacity: 0; }
+  25% { opacity: 1; }
+  100% { transform: translateY(-50px); opacity: 0; }
+}
+
+@keyframes exp-shrink {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+@keyframes exp-pop {
+  0%, 100% { transform: scale(0.6); opacity: 0.3; }
+  30%, 70% { transform: scale(1); opacity: 1; }
+}
