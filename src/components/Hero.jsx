@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { profile, stats } from "../data";
+import PaymentFlow from "./PaymentFlow";
 
 const PHOTO = "/swapnil-web.jpg";
 
@@ -17,6 +18,8 @@ const Hero = () => {
         <p className="animate-fade-up mt-8 text-lg text-muted [animation-delay:150ms]">
           Previously at <span className="font-medium text-pink">RBL Bank</span>, Grad2Live and Zenex Partners.
         </p>
+
+        <PaymentFlow />
 
         <dl className="animate-fade-up mt-12 grid grid-cols-2 gap-x-6 gap-y-8 [animation-delay:300ms]">
           {stats.map((stat) => (

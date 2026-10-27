@@ -4,11 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: "#15151c",
+        ink: "#2e3340",
         muted: "#6b6b78",
         line: "#ebe7f0",
-        pink: "#e0197b",
-        purple: "#9b2fd1",
+        pink: "#e4557f",
+        purple: "#9b6bd6",
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],

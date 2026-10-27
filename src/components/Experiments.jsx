@@ -6,7 +6,7 @@ const Experiments = () => {
     <section id="experiments" className="section">
       <h2 className="heading">Experiments</h2>
       <p className="mt-4 max-w-2xl text-muted">
-        Concept video designs for apps I use every day. These are speculative pieces for practice and are not affiliated with any of these brands.
+        Concept video designs for the apps and platforms I work with. These are speculative pieces for practice and are not affiliated with any of these brands.
       </p>
 
       <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">

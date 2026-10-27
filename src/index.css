@@ -234,3 +234,88 @@ body {
   0%, 100% { transform: scale(0.6); opacity: 0.3; }
   30%, 70% { transform: scale(1); opacity: 1; }
 }
+
+/* Payments experiments (Paytm, Razorpay, PayU) */
+.exp-scan {
+  animation: exp-scan 2.4s ease-in-out infinite;
+}
+
+.exp-paid {
+  animation: exp-fade-in 3s ease-in-out infinite;
+}
+
+.exp-select {
+  animation: exp-select 3s ease-in-out infinite;
+}
+
+.exp-pay {
+  animation: exp-pay 3s ease-in-out infinite;
+}
+
+.exp-status-a { animation: exp-status-a 6s ease-in-out infinite; }
+.exp-status-b { animation: exp-status-b 6s ease-in-out infinite; }
+.exp-status-c { animation: exp-status-c 6s ease-in-out infinite; }
+
+@keyframes exp-scan {
+  0% { top: 8px; }
+  50% { top: calc(100% - 12px); }
+  100% { top: 8px; }
+}
+
+@keyframes exp-fade-in {
+  0%, 30% { opacity: 0.2; }
+  50%, 100% { opacity: 1; }
+}
+
+@keyframes exp-select {
+  0%, 25% { border-color: transparent; }
+  40%, 100% { border-color: #e4557f; }
+}
+
+@keyframes exp-pay {
+  0%, 40% { background-color: #2e3340; }
+  55%, 100% { background-color: #e4557f; }
+}
+
+@keyframes exp-status-a {
+  0%, 30% { opacity: 1; }
+  36%, 100% { opacity: 0; }
+}
+
+@keyframes exp-status-b {
+  0%, 30% { opacity: 0; }
+  36%, 58% { opacity: 1; }
+  64%, 100% { opacity: 0; }
+}
+
+@keyframes exp-status-c {
+  0%, 62% { opacity: 0; }
+  68%, 100% { opacity: 1; }
+}
+
+/* Payment ecosystem panel in the hero */
+.flow-node {
+  @apply h-3.5 w-3.5 rounded-full border-2 border-pink bg-white;
+  animation: flow-pulse 4.5s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 1.1s);
+}
+
+.flow-dot {
+  @apply absolute h-2 w-2 rounded-full bg-pink;
+  top: 50%;
+  margin-top: -4px;
+  animation: flow-move 4.5s linear infinite;
+  animation-delay: calc(var(--i) * -1.5s);
+}
+
+@keyframes flow-pulse {
+  0%, 100% { background-color: #fff; }
+  12%, 24% { background-color: #e4557f; }
+}
+
+@keyframes flow-move {
+  0% { left: 4%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { left: 94%; opacity: 0; }
+}

@@ -3,6 +3,9 @@
 
 const range = (n) => Array.from({ length: n }, (_, i) => i);
 
+// 5x5 QR-style grid. 1 = filled module.
+const qrPattern = "1110101101001011101100110";
+
 const ExperimentScene = ({ scene }) => {
   if (scene === "route")
     return (
@@ -46,7 +49,11 @@ const ExperimentScene = ({ scene }) => {
           ))}
         </div>
         {["Great flavour", "Fast delivery"].map((text, i) => (
-          <span key={text} className="exp-float absolute bottom-4 rounded-full bg-white px-3 py-1 text-[10px] font-medium shadow" style={{ "--i": i, ...(i === 0 ? { left: "10%", bottom: "38%" } : { right: "10%", bottom: "16%" }) }}>
+          <span
+            key={text}
+            className="exp-float absolute rounded-full bg-white px-3 py-1 text-[10px] font-medium shadow"
+            style={{ "--i": i, ...(i === 0 ? { left: "10%", bottom: "38%" } : { right: "10%", bottom: "16%" }) }}
+          >
             {text}
           </span>
         ))}
@@ -65,6 +72,45 @@ const ExperimentScene = ({ scene }) => {
             <span key={i} className="exp-pop h-7 w-7 rounded-lg bg-white shadow" style={{ "--i": i }} />
           ))}
         </div>
+      </div>
+    );
+
+  if (scene === "qr")
+    return (
+      <div className="relative flex h-full flex-col items-center justify-center gap-4 bg-white">
+        <div className="relative overflow-hidden rounded-xl border-4 border-ink p-2">
+          <div className="grid grid-cols-5 gap-0.5">
+            {qrPattern.split("").map((cell, i) => (
+              <span key={i} className={`h-3 w-3 rounded-[2px] ${cell === "1" ? "bg-ink" : "bg-transparent"}`} />
+            ))}
+          </div>
+          <span className="exp-scan absolute left-0 right-0 h-0.5 bg-pink" />
+        </div>
+        <div className="exp-paid rounded-full bg-emerald-500 px-3 py-1 text-[10px] font-semibold text-white">Paid ₹480</div>
+      </div>
+    );
+
+  if (scene === "checkout")
+    return (
+      <div className="relative flex h-full flex-col justify-center gap-2 bg-slate-50 px-4">
+        {["UPI", "Card •••• 4821", "Netbanking"].map((method, i) => (
+          <div
+            key={method}
+            className={`rounded-xl border-2 bg-white px-3 py-2 text-[10px] font-medium shadow-sm ${i === 0 ? "exp-select border-pink" : "border-transparent"}`}
+          >
+            {method}
+          </div>
+        ))}
+        <div className="exp-pay mt-2 rounded-xl bg-ink py-2 text-center text-[11px] font-semibold text-white">Pay ₹480</div>
+      </div>
+    );
+
+  if (scene === "retry")
+    return (
+      <div className="relative flex h-full items-center justify-center bg-amber-50 px-4">
+        <div className="exp-status-a absolute rounded-full bg-red-500 px-4 py-2 text-[11px] font-semibold text-white">Payment failed</div>
+        <div className="exp-status-b absolute rounded-full bg-amber-400 px-4 py-2 text-[11px] font-semibold text-ink">Retrying…</div>
+        <div className="exp-status-c absolute rounded-full bg-emerald-500 px-4 py-2 text-[11px] font-semibold text-white">Payment successful</div>
       </div>
     );
 

@@ -35,4 +35,25 @@ export const experiments = [
     scene: "countdown",
     tint: "bg-emerald-100",
   },
+  {
+    brand: "Paytm",
+    title: "Scan, pay, done",
+    brief: "A QR scan line sweeps across the code and the payment confirms, so the whole flow is seen in a few seconds.",
+    scene: "qr",
+    tint: "bg-indigo-100",
+  },
+  {
+    brand: "Razorpay",
+    title: "Checkout in one tap",
+    brief: "Payment options stack up, one gets selected, and the pay button lights up, showing a checkout that stays out of the way.",
+    scene: "checkout",
+    tint: "bg-cyan-100",
+  },
+  {
+    brand: "PayU",
+    title: "Failed payments, recovered",
+    brief: "A failed payment is retried automatically and ends as a success, so the recovery itself becomes visible to the user.",
+    scene: "retry",
+    tint: "bg-lime-100",
+  },
 ];
