@@ -7,7 +7,7 @@ const Footer = () => {
         <p>
           © {new Date().getFullYear()} <span className="font-medium text-ink">{profile.name}</span>. All rights reserved.
         </p>
-        <a href="#home" className="font-semibold text-pink hover:underline">
+        <a href="#home" className="font-semibold text-accent hover:underline">
           Back to top ↑
         </a>
       </div>

@@ -55,16 +55,16 @@ const Contact = () => {
 
       <h2 className="heading">Let's Connect</h2>
       <p className="mt-4 text-lg text-muted">Feel free to reach out for collaborations or just a friendly hello 😃</p>
-      <a href={`mailto:${profile.email}`} className="mt-4 inline-block text-lg font-medium text-pink hover:underline">
+      <a href={`mailto:${profile.email}`} className="mt-4 inline-block text-lg font-medium text-accent hover:underline">
         {profile.email}
       </a>
       <p className="mt-2 text-muted">{profile.phone}</p>
 
       <div className="mt-8 flex justify-center gap-3">
-        <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="chip hover:border-pink hover:text-pink">
+        <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="chip hover:border-accent hover:text-accent">
           LinkedIn
         </a>
-        <a href={profile.github} target="_blank" rel="noopener noreferrer" className="chip hover:border-pink hover:text-pink">
+        <a href={profile.github} target="_blank" rel="noopener noreferrer" className="chip hover:border-accent hover:text-accent">
           GitHub
         </a>
       </div>

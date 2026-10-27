@@ -49,8 +49,8 @@ const ProjectVisual = ({ type }) => {
     return (
       <div className="viz flex items-center justify-center">
         <div className="viz-orbit">
-          <span className="viz-orbit-dot bg-pink" />
-          <span className="viz-orbit-dot bg-purple" style={{ transform: "rotate(180deg) translateY(-28px)" }} />
+          <span className="viz-orbit-dot bg-accent" />
+          <span className="viz-orbit-dot bg-accent2" style={{ transform: "rotate(180deg) translateY(-28px)" }} />
         </div>
       </div>
     );
@@ -70,7 +70,7 @@ const ProjectVisual = ({ type }) => {
     return (
       <div className="viz relative flex flex-col items-center justify-center gap-1.5 overflow-hidden">
         {[72, 52, 32].map((w, i) => (
-          <span key={i} className="h-2.5 rounded-full bg-pink/80" style={{ width: `${w}%` }} />
+          <span key={i} className="h-2.5 rounded-full bg-accent/80" style={{ width: `${w}%` }} />
         ))}
         {range(4).map((i) => (
           <span key={i} className="viz-drop" style={{ "--i": i }} />

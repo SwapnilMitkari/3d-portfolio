@@ -4,7 +4,7 @@ import ProjectVisual from "./ProjectVisual";
 const tints = ["bg-violet-100", "bg-emerald-100", "bg-orange-100", "bg-sky-100", "bg-fuchsia-100", "bg-amber-100", "bg-rose-100"];
 
 const ExternalLink = ({ href, children }) => (
-  <a href={href} target="_blank" rel="noopener noreferrer" className="font-semibold text-pink hover:underline">
+  <a href={href} target="_blank" rel="noopener noreferrer" className="font-semibold text-accent hover:underline">
     {children} →
   </a>
 );

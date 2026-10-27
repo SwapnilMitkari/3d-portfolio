@@ -13,7 +13,7 @@ const ExperimentScene = ({ scene }) => {
         <div className="absolute left-6 right-6 top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-ink/10" />
         <div className="exp-route-fill absolute left-6 top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-accent" />
         <span className="exp-route-car absolute top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-ink" />
-        <span className="absolute right-6 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-pink" />
+        <span className="absolute right-6 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-accent" />
         <div className="absolute bottom-4 left-4 right-4 rounded-full bg-white px-3 py-1.5 text-center text-[10px] font-semibold">
           Arriving in 4 min
         </div>
@@ -33,7 +33,7 @@ const ExperimentScene = ({ scene }) => {
   if (scene === "bowl")
     return (
       <div className="relative flex h-full items-end justify-center overflow-hidden bg-orange-50 pb-6">
-        {["bg-green-400", "bg-red-400", "bg-yellow-300", "bg-pink"].map((color, i) => (
+        {["bg-green-400", "bg-red-400", "bg-yellow-300", "bg-accent"].map((color, i) => (
           <span key={i} className={`exp-drop-in absolute top-6 h-5 w-5 rounded-full ${color}`} style={{ "--i": i, left: `${30 + i * 13}%` }} />
         ))}
         <div className="h-16 w-36 rounded-b-full border-4 border-ink bg-white" />
@@ -84,7 +84,7 @@ const ExperimentScene = ({ scene }) => {
               <span key={i} className={`h-3 w-3 rounded-[2px] ${cell === "1" ? "bg-ink" : "bg-transparent"}`} />
             ))}
           </div>
-          <span className="exp-scan absolute left-0 right-0 h-0.5 bg-pink" />
+          <span className="exp-scan absolute left-0 right-0 h-0.5 bg-accent" />
         </div>
         <div className="exp-paid rounded-full bg-emerald-500 px-3 py-1 text-[10px] font-semibold text-white">Paid ₹480</div>
       </div>
@@ -96,7 +96,7 @@ const ExperimentScene = ({ scene }) => {
         {["UPI", "Card •••• 4821", "Netbanking"].map((method, i) => (
           <div
             key={method}
-            className={`rounded-xl border-2 bg-white px-3 py-2 text-[10px] font-medium shadow-sm ${i === 0 ? "exp-select border-pink" : "border-transparent"}`}
+            className={`rounded-xl border-2 bg-white px-3 py-2 text-[10px] font-medium shadow-sm ${i === 0 ? "exp-select border-accent" : "border-transparent"}`}
           >
             {method}
           </div>

@@ -15,13 +15,13 @@ const About = () => {
             <li key={experience.company_name + experience.title} className="grid gap-4 border-t border-line pt-8 md:grid-cols-[180px_1fr]">
               <div>
                 <p className="text-sm text-muted">{experience.date}</p>
-                <p className="mt-1 font-semibold text-pink">{experience.company_name}</p>
+                <p className="mt-1 font-semibold text-accent">{experience.company_name}</p>
               </div>
               <div>
                 <h3 className="text-lg font-semibold">{experience.title}</h3>
                 <ul className="mt-4 space-y-3 text-muted">
                   {experience.points.map((point) => (
-                    <li key={point} className="relative pl-5 leading-relaxed before:absolute before:left-0 before:top-[0.7em] before:h-1.5 before:w-1.5 before:rounded-full before:bg-pink">
+                    <li key={point} className="relative pl-5 leading-relaxed before:absolute before:left-0 before:top-[0.7em] before:h-1.5 before:w-1.5 before:rounded-full before:bg-accent">
                       {point}
                     </li>
                   ))}
