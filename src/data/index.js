@@ -85,6 +85,7 @@ export const projects = [
   {
     name: "Micro-Confidence",
     tag: "Full-stack app",
+    visual: "streak",
     description:
       "Full-stack wellness app (React, TypeScript, Supabase, n8n) delivering daily social-confidence micro-challenges with streaks, courage-score gamification, and 4 automated n8n workflows. Live app, with a full PRD/BRD/FSD documentation suite.",
     link: "https://my-confidence-quest.lovable.app/",
@@ -94,6 +95,7 @@ export const projects = [
   {
     name: "Siemens Supplier Onboarding — n8n Automation",
     tag: "Automation",
+    visual: "pipeline",
     description:
       "Complete end-to-end n8n workflow automating a 7-gate supplier onboarding pipeline (Identify → Register → Documents → Risk → SAP → Qualify → Activate), including an AI document-classification agent and Google Sheets/Gmail integrations.",
     link: "/supplier-onboarding-workflow.json",
@@ -102,6 +104,7 @@ export const projects = [
   {
     name: "PoshanSetu",
     tag: "GTM strategy",
+    visual: "bars",
     description:
       "F&B business model for school-age (5–12) child nutrition in tier-3/4 India — a fortified millet-and-dal mix sold to state governments as a screened-cohort supplement and to parents via retail. Full GTM, unit economics, and regulatory strategy.",
     link: "/poshansetu-pitch.pptx",
@@ -110,6 +113,7 @@ export const projects = [
   {
     name: "Sector Map: Industrial Automation",
     tag: "Research",
+    visual: "line",
     description:
       "Research deck mapping the shift from hardware to AI-enabled software/services in industrial automation — market sizing, incumbents vs. AI-native challengers, policy drivers, and a Siemens supplier-onboarding case study.",
     link: "/sector-map-industrial-automation.pdf",
@@ -118,6 +122,7 @@ export const projects = [
   {
     name: "The Nash Equilibrium Inside India's E20 Standoff",
     tag: "Published article",
+    visual: "orbit",
     description:
       "Published research article using game theory to explain why India's E20 ethanol-blending policy persists despite backlash — co-authored analysis of the government, farmer, and owner payoff structure.",
     link: "/e20-nash-equilibrium-article.pdf",
@@ -126,6 +131,7 @@ export const projects = [
   {
     name: "Seedhi Si Baat",
     tag: "Original rap",
+    visual: "wave",
     description:
       "An original Hinglish rap covering an entire GTM/marketing framework — Need/Want/Demand, STP, the 4 Ps, Porter's Five Forces, BCG and Ansoff matrices — written and produced as a study aid.",
     audioUrl: "/Seedhi_Si_Baat.mp3",
@@ -133,6 +139,7 @@ export const projects = [
   {
     name: "Edureka Growth Strategy — PM Case Study",
     tag: "Case study",
+    visual: "funnel",
     description:
       "Diagnosed a stalled MRR despite rising leads by identifying a dropping lead-conversion rate, then designed a sustainable growth path (self-serve funnel, subscriptions, referrals) with vertical/lateral experiments to validate root cause.",
     link: "/edureka-growth-strategy.pdf",
@@ -141,6 +148,7 @@ export const projects = [
   {
     name: "Gmail Language Translation — PRD",
     tag: "PRD",
+    visual: "doc",
     description:
       "Full PRD for a native translation feature in Gmail targeting non-English-speaking users, with competitive analysis vs. Outlook, prioritized feature set (P0–P4), and mockups of the end-to-end translation workflow.",
     link: "/gmail-translation-prd.pdf",

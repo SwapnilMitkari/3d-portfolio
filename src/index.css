@@ -38,3 +38,113 @@ body {
     @apply w-full rounded-xl border border-line bg-white px-4 py-3 text-sm outline-none transition focus:border-pink focus:ring-2 focus:ring-pink/20;
   }
 }
+
+/* Project card animations (see src/components/ProjectVisual.jsx) */
+.viz {
+  @apply relative mt-6 h-24 w-full overflow-hidden rounded-2xl bg-white/70;
+}
+
+.viz-dot {
+  @apply h-3.5 w-3.5 rounded-full bg-pink/20;
+  animation: viz-pop 2.1s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.2s);
+}
+
+.viz-gate {
+  @apply h-8 w-5 rounded-md bg-ink/10;
+  animation: viz-light 3.5s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.3s);
+}
+
+.viz-bar {
+  @apply w-6 rounded-t-md bg-gradient-to-t from-pink to-purple;
+  transform-origin: bottom;
+  animation: viz-grow 3s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * 0.15s);
+}
+
+.viz-line {
+  stroke: #e0197b;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  animation: viz-draw 4s ease-in-out infinite;
+}
+
+.viz-orbit {
+  @apply rounded-full border border-dashed border-ink/20;
+  @apply relative h-14 w-14;
+  animation: viz-spin 4s linear infinite;
+}
+
+.viz-orbit-dot {
+  @apply absolute left-1/2 top-1/2 h-4 w-4 -ml-2 -mt-2 rounded-full;
+  transform: translateY(-28px);
+}
+
+.viz-wave {
+  @apply w-1.5 rounded-full bg-gradient-to-t from-pink to-purple;
+  height: 70%;
+  animation: viz-eq 1.2s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * 0.07s);
+}
+
+.viz-drop {
+  @apply absolute top-0 h-2 w-2 rounded-full bg-purple;
+  left: calc(10% + var(--i) * 22%);
+  animation: viz-fall 2.4s linear infinite;
+  animation-delay: calc(var(--i) * 0.6s);
+}
+
+.viz-doc-line {
+  @apply h-2.5 rounded-full bg-ink/10;
+  position: relative;
+  overflow: hidden;
+}
+
+.viz-doc-line::after {
+  content: "";
+  @apply absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-pink/60 to-transparent;
+  animation: viz-scan 2.4s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.2s);
+}
+
+@keyframes viz-pop {
+  0%, 100% { transform: scale(0.8); background-color: rgb(224 25 123 / 0.2); }
+  40% { transform: scale(1.25); background-color: #e0197b; }
+}
+
+@keyframes viz-light {
+  0%, 100% { background-color: rgb(21 21 28 / 0.1); }
+  30%, 70% { background-color: #e0197b; }
+}
+
+@keyframes viz-grow {
+  from { transform: scaleY(0.25); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes viz-draw {
+  0% { stroke-dashoffset: 100; }
+  60%, 100% { stroke-dashoffset: 0; }
+}
+
+@keyframes viz-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes viz-eq {
+  from { transform: scaleY(0.3); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes viz-fall {
+  0% { transform: translateY(-10px); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translateY(96px); opacity: 0; }
+}
+
+@keyframes viz-scan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}

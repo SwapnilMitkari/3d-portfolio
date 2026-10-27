@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { profile, stats } from "../data";
 
-const PHOTO = "/swapnil.jpg";
+const PHOTO = "/swapnil-web.jpg";
 
 const Hero = () => {
   const [photoMissing, setPhotoMissing] = useState(false);
