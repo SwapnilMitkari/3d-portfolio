@@ -32,13 +32,23 @@ const Hero = () => {
         </dl>
       </div>
 
-      <div className="animate-fade-up relative mx-auto w-full max-w-sm [animation-delay:200ms]">
-        <div className="absolute -left-4 -top-4 h-full w-full rounded-2xl bg-gradient-to-br from-pink to-purple" />
-        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-line">
+      <div className="animate-fade-up relative mx-auto w-full max-w-sm p-6 [animation-delay:200ms]">
+        <div className="absolute inset-0 overflow-hidden rounded-[2rem]">
+          <div className="absolute inset-0 bg-gradient-to-br from-sky-200 via-pink/40 to-purple/60" />
+          <span className="hero-blob absolute -left-8 top-6 h-44 w-44 rounded-full bg-amber-200/80 blur-2xl" />
+          <span className="hero-blob absolute -right-6 bottom-4 h-52 w-52 rounded-full bg-cyan-300/70 blur-2xl [animation-delay:-3s]" />
+        </div>
+
+        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-2xl ring-4 ring-white/70">
           {photoMissing ? (
-            <div className="flex h-full items-center justify-center font-display text-6xl font-semibold text-muted">SM</div>
+            <div className="flex h-full items-center justify-center bg-line font-display text-6xl font-semibold text-muted">SM</div>
           ) : (
-            <img src={PHOTO} alt={profile.name} onError={() => setPhotoMissing(true)} className="h-full w-full object-cover grayscale" />
+            <img
+              src={PHOTO}
+              alt={profile.name}
+              onError={() => setPhotoMissing(true)}
+              className="h-full w-full scale-110 object-cover object-[50%_25%]"
+            />
           )}
         </div>
       </div>

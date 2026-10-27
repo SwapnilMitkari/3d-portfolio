@@ -319,3 +319,13 @@ body {
   90% { opacity: 1; }
   100% { left: 94%; opacity: 0; }
 }
+
+/* Hero photo backdrop */
+.hero-blob {
+  animation: hero-blob 9s ease-in-out infinite;
+}
+
+@keyframes hero-blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(14px, -18px) scale(1.12); }
+}
