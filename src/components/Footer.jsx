@@ -1,28 +1,15 @@
-import { Link } from "react-router-dom";
-
-import { profile, socialLinks } from "../constants";
+import { profile } from "../data";
 
 const Footer = () => {
   return (
-    <footer className='footer font-poppins'>
-      <hr className='border-slate-200' />
-
-      <div className='footer-container'>
+    <footer className="border-t border-line">
+      <div className="mx-auto flex max-w-5xl flex-col gap-4 px-6 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between sm:px-10">
         <p>
-          © 2026 <strong>{profile.name}</strong>. All rights reserved.
+          © {new Date().getFullYear()} <span className="font-medium text-ink">{profile.name}</span>. All rights reserved.
         </p>
-
-        <div className='flex gap-3 justify-center items-center'>
-          {socialLinks.map((link) => (
-            <Link key={link.name} to={link.link} target='_blank'>
-              <img
-                src={link.iconUrl}
-                alt={link.name}
-                className='w-6 h-6 object-contain'
-              />
-            </Link>
-          ))}
-        </div>
+        <a href="#home" className="font-semibold text-pink hover:underline">
+          Back to top ↑
+        </a>
       </div>
     </footer>
   );

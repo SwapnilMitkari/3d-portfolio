@@ -1,32 +1,29 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
     extend: {
       colors: {
-        gray: {
-          200: "#D5DAE1"
-        },
-        black: {
-          DEFAULT: "#000",
-          500: "#1D2235"
-        },
-        blue: {
-          500: "#2b77e7"
-        }
+        ink: "#15151c",
+        muted: "#6b6b78",
+        line: "#ebe7f0",
+        pink: "#e0197b",
+        purple: "#9b2fd1",
       },
       fontFamily: {
-        worksans: ["Work Sans", "sans-serif"],
-        poppins: ['Poppins', "sans-serif"]
+        sans: ["Inter", "system-ui", "sans-serif"],
+        display: ["Poppins", "Inter", "sans-serif"],
       },
-      boxShadow: {
-        card: '0px 1px 2px 0px rgba(0, 0, 0, 0.05)'
-      }
+      keyframes: {
+        fadeUp: {
+          "0%": { opacity: "0", transform: "translateY(16px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        "fade-up": "fadeUp 0.8s ease-out both",
+      },
     },
   },
   plugins: [],
-}
-
+};
