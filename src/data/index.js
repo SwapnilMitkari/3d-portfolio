@@ -7,7 +7,7 @@ export const profile = {
   tagline:
     "6+ years turning banking infrastructure into products people actually use. Also an EFI-registered horse rider.",
   about:
-    "Product manager with 6+ years in digital payments, API banking, and customer-centric product development at RBL Bank — 80+ features owned, 3 product launches touching 8+ lakh customers, and ₹192+ Cr in business impact through GTM strategy and cross-functional execution. Outside of product, I'm 1-of-1,030 EFI-registered horse riders and trainers, and I occasionally turn marketing frameworks into Hinglish rap songs.",
+    "Product manager with 6+ years in digital payments, API banking, and customer-centric product development at RBL Bank — 80+ features owned, 3 product launches touching 8+ lakh customers, and ₹192+ Cr in business impact through GTM strategy and cross-functional execution. Outside of product, I'm one of 1,030 EFI-registered horse riders and trainers, and I occasionally turn marketing frameworks into Hinglish rap songs.",
   email: "swapnil.mitkari2027@mastersunion.org",
   phone: "+91 8329924760",
   linkedin: "https://www.linkedin.com/in/swapnil-mitkari-4ab337171",
